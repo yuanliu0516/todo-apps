@@ -30,6 +30,7 @@ while True:
             window['todos'].update(values=todos)
         case sq.WINDOW_CLOSED:
             break
+
         case "Edit":
             todo_to_edit = values['todos'][0]
             print(todo_to_edit)
