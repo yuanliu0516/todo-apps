@@ -28,8 +28,7 @@ while True:
             todos.append(new_todo)
             functions.write_todo(todos)
             window['todos'].update(values=todos)
-        case sq.WINDOW_CLOSED:
-            break
+
 
         case "Edit":
             todo_to_edit = values['todos'][0]
@@ -44,9 +43,12 @@ while True:
         case 'todos':
             window['todo'].update(value=values['todos'][0])
 
+        case sq.WINDOW_CLOSED:
+            # only the while loop will be ended in the break situation
+            # if we use exit(), then the whole program will be ended
+            # if event == sq.WINDOW_CLOSED:
+            #     break
+            break
 
 
-
-    # if event == sq.WINDOW_CLOSED:
-    #     break
 window.close()
