@@ -10,10 +10,13 @@ add_button = sq.Button('Add')
 # 把里面的value加进去 注意这里的key是todos
 list_box = sq.Listbox(values=functions.get_todo(), key='todos', enable_events=True, size=[45,10])
 edit_button = sq.Button('Edit')
+complete_button = sq.Button('Complete')
+exit_button = sq.Button('Exit')
 window = sq.Window('My TO-Do App',
                    layout=[[label],
                            [input_box, add_button],
-                           [list_box, edit_button]],
+                           [list_box, edit_button, complete_button],
+                           [exit_button]],
                    font=('Helvetica', 20))
 
 while True:
@@ -24,22 +27,38 @@ while True:
     match event:
         case "Add":
             todos = functions.get_todo()
+            # todo 是一个dic， todo：value
             new_todo = values['todo'] + '\n'
             todos.append(new_todo)
             functions.write_todo(todos)
             window['todos'].update(values=todos)
 
-
         case "Edit":
             todo_to_edit = values['todos'][0]
             print(todo_to_edit)
+            # todo 是一个dic， todo：value， 这里我们拿到todo的value 然后 assigned 给new_todo
             new_todo = values["todo"]
 
             todos = functions.get_todo()
+            # 找到需要edit的index
             index = todos.index(todo_to_edit)
             todos[index] = new_todo
             functions.write_todo(todos)
             window['todos'].update(values=todos)
+
+        case'Complete':
+            todo_to_complete = values['todos'][0]
+            todos = functions.get_todo()
+            todos.remove(todo_to_complete)
+            functions.write_todo(todos)
+            # update the window 界面里面的values
+            window['todos'].update(values=todos)
+            # update the input 里面的values
+            window['todo'].update(values='')
+
+        case 'Exit':
+            break
+
         case 'todos':
             window['todo'].update(value=values['todos'][0])
 
